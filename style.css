@@ -94,6 +94,7 @@ li {
     text-align: center;
     border: none;
     color: #7342d6;
+    display: none;
 }
 
 .menu__backdrop {
@@ -107,7 +108,22 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 300ms ease;
+    display: none;
+    visibility: hidden;
+    opacity: 0;
 }
+
+.menu--open .menu__backdrop {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu--open {
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
 .menu__link {
     display: flex;
     align-items: center;
@@ -242,6 +258,7 @@ button:active {
 
 .highlight__wrapper {
     display: flex;
+    flex-wrap: wrap;
 
 }
 
@@ -250,7 +267,6 @@ button:active {
     width: calc(100% / 3);
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
 }
 
@@ -271,6 +287,7 @@ button:active {
 .highlight__subtitle {
     font-size: 20px;
     margin-bottom: 16px;
+    text-align: center;
 }
 
 .highlight__para {
@@ -367,3 +384,56 @@ footer {
 .footer__link {
     padding: 0 8px;
 }
+
+/*Small Phones, ETC*/
+
+@media (max-width: 768px) {
+
+    .header__description {
+        padding: 0 24px;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    button {
+        font-size: 18px;
+    }
+
+    .book {
+        width: 50%;
+    }
+
+    .highlight {
+        width: 100%;
+    }
+}
+
+
+
+/*Small Phones*/
+
+@media (max-width: 500px) {
+    .nav__links {
+        display: none;
+    }
+
+    .button__menu {
+        display: block;
+    }
+
+    .highlight {
+        width: 100%;
+        
+    }
+
+    .highlight:not(:last-child) {
+        margin-bottom: 24px;
+    }
+}
+
