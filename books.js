@@ -1,15 +1,26 @@
 
-function renderBooks(filter) {
+let books;
+
+async function renderBooks(filter) {
   const booksWrapper = document.querySelector(".books");
 
-  const books = getBooks();
+  booksWrapper.classList += 'books__loading'
+
+  document.body.classList += ' books__loading'
+  
+  if (!books) {
+      books = await getBooks();
+  }
+ 
+
+  document.body.classList.remove += ' books__loading'
 
 
-    if (filter === `LOW_TO_HIGH`){
-      books.sort((a,b) => a.originalPricerice - b.originalPrice);
+    if (filter === "LOW_TO_HIGH"){
+      books.sort((a,b) => (a.salePirce || a.originalPrice) - (b.salePrice || b.originalPrice));
     }
     else if (filter === `HIGH_TO_LOW`){
-      books.sort((a,b) => b.originalPricerice - a.originalPrice);
+      books.sort((a,b) => (b.salePrice || b.originalPricerice) - (a.salePrice || a.originalPrice));
     }
     else if (filter === `RATING`) {
       books.sort((a,b) => b.rating - a.rating);
@@ -33,6 +44,7 @@ return `<div class="book">
     </div>
     <div class="book__price">
       <span class=>$${book.originalPrice.toFixed(2)}
+      ${priceHTML(book.originalPrice, book.salePrice)}
     </div>
   </div>`;
 })
@@ -41,15 +53,24 @@ return `<div class="book">
 booksWrapper.innerHTML = booksHtml;
 }
 
+function priceHTML (originalPrice, salePrice) {
+  if (!salePrice) {
+    return `$${originalPrice.toFixed(2)}`
+  }
+   return `<span class="book__price--normal"> $${originalPrice.toFixed(2)}</span>$${salePrice.toFixed(2)}`
+}
+  
+  
+
 function ratingsHTML(rating) {
   
-   let ratingHTML = ``;
+   let ratingHTML = "";
 
    for (let i = 0; i < Math.floor(rating); ++i) {
     ratingHTML += `<i class="fas fa-star"></i>`
    }
 
-   if(!Number.isInterger(rating)) {
+   if(!Number.isInteger(rating)) {
     ratingHTML += `<i class="fas fa-star-half-alt"></i>`
 
    }
@@ -58,7 +79,7 @@ function ratingsHTML(rating) {
 }
 
 function filterBooks(event) {
-   renderBooks(event.target.value)
+   renderBooks(event.target.value);
   
 }
 
@@ -69,8 +90,10 @@ setTimeout(() => {
 // FAKE DATA
 
 function getBooks() {
-  return [
-    {
+  return new Promise ((resolve) => {
+    setTimeout(() => {
+      resolve([
+         {
       id: 1,
       title: "Crack the Coding Interview",
       url: "assets/crack the coding interview.png",
@@ -83,7 +106,7 @@ function getBooks() {
       title: "Atomic Habits",
       url: "assets/atomic habits.jpg",
       originalPrice: 39,
-      salePrice: 12,
+      salePrice: null,
       rating: 5,
     },
     {
@@ -139,7 +162,7 @@ function getBooks() {
       title: "The 5 Second Rule",
       url: "assets/book-6.jpeg",
       originalPrice: 35,
-      salePrice: 20,
+      salePrice: null,
       rating: 4,
     },
     {
@@ -147,7 +170,7 @@ function getBooks() {
       title: "Your Next Five Moves",
       url: "assets/book-7.jpg",
       originalPrice: 40,
-      salePrice: 20,
+      salePrice: null,
       rating: 4,
     },
     {
@@ -155,8 +178,12 @@ function getBooks() {
       title: "Mastery",
       url: "assets/book-8.jpeg",
       originalPrice: 30,
-      salePrice: 20,
+      salePrice: null,
       rating: 4.5,
     },
-  ];
+     ]);
+
+    }, 1000);
+  });
 }
+  
