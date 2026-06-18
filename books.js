@@ -12,7 +12,7 @@ async function renderBooks(filter) {
       books = await getBooks();
   }
  
-
+  booksWrapper.classList.remove += ' books__loading'
   document.body.classList.remove += ' books__loading'
 
 
@@ -27,7 +27,7 @@ async function renderBooks(filter) {
     }
 
    
-
+booksWrapper.innerHTML = booksHtml;
   
 
 const booksHtml = books.map((book) => {
@@ -50,7 +50,7 @@ return `<div class="book">
 })
 .join("");
 
-booksWrapper.innerHTML = booksHtml;
+
 }
 
 function priceHTML (originalPrice, salePrice) {
